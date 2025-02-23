@@ -1,0 +1,133 @@
+<?php
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $course = $_POST['course'];
+
+    // Database connection
+    $conn = new mysqli('localhost', 'root', '', 'user_activity');
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Insert login record
+    $stmt = $conn->prepare("INSERT INTO user_logs (name, course) VALUES (?, ?)");
+    $stmt->bind_param("ss", $name, $course);
+    $stmt->execute();
+    $user_id = $stmt->insert_id;
+    $stmt->close();
+
+    $_SESSION['user_id'] = $user_id;
+    header("Location: links.php");
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Header with background image and opacity */
+        .header {
+            background-image: url('header-photo.jpg'); /* Replace with your photo */
+            background-size: cover;
+            background-position: center;
+            height: 200px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity here */
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer styling */
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Login container styling */
+        .login-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            margin: 50px auto;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .login-container h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Welcome to Our Platform</h1>
+    </div>
+
+    <!-- Login Form -->
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="POST" action="login.php">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="course">Course:</label>
+                <select class="form-control" id="course" name="course" required>
+                    <option value="Medical">Medical</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Computer Science">Computer Science</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</body>
+</html>

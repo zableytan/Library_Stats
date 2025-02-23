@@ -1,0 +1,16 @@
+# XAMPP specific
+/xampp/
+*.log
+*.ini
+
+# PHP specific
+vendor/
+composer.lock
+
+# IDE specific
+.vscode/
+.idea/
+
+# System specific
+.DS_Store
+Thumbs.db
