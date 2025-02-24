@@ -243,7 +243,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="NURSING">NURSING</option>
                             <option value="MIDWIFERY">MIDWIFERY</option>
                             <option value="BIOLOGY">BIOLOGY</option>
-                            <option value="APMED">APMED</option>
+                            <option value="" disabled>--POST-GRADUATE STUDIES--</option>
                             <option value="MCH">MCH</option>
                             <option value="MPD">MPD</option>
                             <option value="MHPED">MHPED</option>

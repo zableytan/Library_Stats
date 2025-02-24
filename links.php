@@ -136,14 +136,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .image-button {
             display: block;
             width: 100%;
-            height: 250px;
+            max-width: 280px; /* Set max-width to 250px */
+            height: 280px;
             border: solid;
             border-width: 3px;
             border-radius: 10px;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background-color: white; /* Adds a white background to handle PNG transparency */
+            background-color: white;
             object-fit: contain;
+            margin: 0 auto; /* Center the button */
         }
 
         .image-button:hover {
@@ -168,7 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 10px 20px;
             font-size: 1rem;
             color: white;
-            background-color: #dc3545; /* Red color for the exit button */
+            background-color: #dc3545;
             border: none;
             border-radius: 50px;
             cursor: pointer;
@@ -176,50 +178,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .exit-button:hover {
-            background-color: #c82333; /* Darker red on hover */
+            background-color: #c82333;
         }
 
-        
+        /* Media queries for responsiveness */
+        @media (min-width: 992px) {
+            .col-lg-4 {
+                width: 33.333333%; /* Three columns on large screens */
+            }
+        }
+
+        @media (max-width: 991px) and (min-width: 768px) {
+            .col-md-6 {
+                width: 50%; /* Two columns on medium screens */
+            }
+        }
+
+        @media (max-width: 767px) {
+            .col-sm-12 {
+                width: 100%; /* One column on small screens */
+            }
+        }
+
         @media (max-width: 576px) {
             .header {
-                height: 100px; /* Smaller header height for mobile */
+                height: 100px;
             }
 
             .header h1 {
-                font-size: 1.5rem; /* Smaller font size for mobile */
+                font-size: 1.5rem;
             }
 
             .welcome-message {
-                font-size: 1rem; /* Smaller font size for mobile */
+                font-size: 1rem;
             }
 
             .image-title {
-                font-size: 0.9rem; /* Smaller font size for mobile */
+                font-size: 0.9rem;
             }
 
             .container {
-                padding: 10px; /* Reduced padding for mobile */
+                padding: 10px;
             }
 
             .row {
-                margin: 0 -5px; /* Adjust row margins for mobile */
+                margin: 0 -5px;
             }
 
             .col-md-4, .col-sm-6 {
-                padding: 5px; /* Adjust column padding for mobile */
+                padding: 5px;
             }
 
             .exit-button {
-                max-width: 150px; /* Smaller button on mobile */
+                max-width: 150px;
                 font-size: 0.9rem;
             }
+        }
+
+        /* Adjust spacing between columns */
+        .row {
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+
+        .col-lg-4, .col-md-6, .col-sm-12 {
+            padding-left: 15px;
+            padding-right: 15px;
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
-        <img src="dmsflogo.png" alt="Logo" class="logo"> <!-- Placeholder for logo -->
+        <img src="dmsflogo.png" alt="Logo" class="logo">
         <h1>Library</h1>
     </div>
 
@@ -236,7 +267,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Image Buttons in a Grid -->
         <div class="row">
             <?php foreach ($links as $index => $link): ?>
-                <div class="col-md-4 col-sm-6 mb-4">
+                <!-- Column size adjusted for different screen sizes -->
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                     <input type="image" src="<?php echo htmlspecialchars($link['photo']); ?>" alt="Link <?php echo $index + 1; ?>" class="image-button" onclick="handleClick(event, <?php echo $index + 1; ?>)">
                     <div class="image-title"><?php echo htmlspecialchars($link['title']); ?></div>
                 </div>
